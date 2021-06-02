@@ -11,9 +11,6 @@ if [ ! -f /setup.lock ]; then
         echo "Your auto-generated stream key is: $VALID_STREAM_KEY"
     fi
 
-    # Build nginx.conf
-    cp /template/nginx.conf.skel /etc/nginx/nginx.conf
-
     # Check if tls should be enabled
     if [[ ! -z "$TLS_CERT" ]]; then
         # Build nginx.conf for RTMPS
