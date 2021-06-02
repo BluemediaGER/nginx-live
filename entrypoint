@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Check if the container is started for the first time
+if [ ! -f /setup.lock ]; then
+
+    # Get valid stream key
+    if [[ ! -z "$STREAM_KEY" ]]; then
+        VALID_STREAM_KEY=$STREAM_KEY
+    else
+        VALID_STREAM_KEY=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 48)
+        echo "Your auto-generated stream key is: $VALID_STREAM_KEY"
+    fi
+
+    # Build nginx.conf
+    cp /template/nginx.conf.skel /etc/nginx/nginx.conf
+
+    # Check if tls should be enabled
+    if [[ ! -z "$TLS_CERT" ]]; then
+        # Build nginx.conf for RTMPS
+        cp /template/nginx-ssl.conf.skel /etc/nginx/nginx.conf
+        sed -i "s/{CERT_NAME}/$TLS_CERT/g" /etc/nginx/nginx.conf
+        sed -i "s/{KEY_NAME}/$TLS_KEY/g" /etc/nginx/nginx.conf
+    else
+        # nginx.conf without ssl
+        cp /template/nginx.conf.skel /etc/nginx/nginx.conf
+    fi
+
+    # Complete nginx config
+    sed -i "s/{RTMP_PORT}/$RTMP_PORT/g" /etc/nginx/nginx.conf
+    sed -i "s/{STREAM_KEY}/$VALID_STREAM_KEY/g" /etc/nginx/nginx.conf
+    sed -i "s/{HTTP_PORT}/$HTTP_PORT/g" /etc/nginx/nginx.conf
+
+    # Touch setup lock
+    touch /setup.lock
+
+fi
+
+echo "Init done. Starting nginx..."
+
+exec "$@"

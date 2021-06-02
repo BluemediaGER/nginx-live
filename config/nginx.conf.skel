@@ -1,0 +1,107 @@
+# Load RTMP modules
+load_module "modules/ngx_stream_module.so";
+load_module "modules/ngx_rtmp_module.so";
+
+# General configuration
+daemon off;
+user nginx;
+worker_processes auto;
+error_log /dev/stdout;
+pid /var/run/nginx.pid;
+worker_rlimit_nofile 20960;
+
+events {
+    worker_connections 1024;
+    multi_accept on;
+    accept_mutex on;
+    accept_mutex_delay 500ms;
+    use epoll; 
+    epoll_events 512;
+}
+
+# RTMP configuration
+rtmp {
+    server {
+        listen {RTMP_PORT};
+        listen [::]:{RTMP_PORT} ipv6only=on;
+        
+        chunk_size 4000;
+
+        application live {
+            live on;
+
+            # Only allow ingest with valid stream key
+            notify_method get;
+            on_publish http://localhost:{HTTP_PORT}/auth;
+
+            # Don't record anything
+            record off;
+
+            # Push stream to HLS endpoint
+            push rtmp://127.0.0.1:{RTMP_PORT}/hls/live live=1;
+
+            # disable consuming the stream from nginx as rtmp
+            deny play all;
+        }
+
+        application hls {
+            live on;
+
+            # Only allow publishing from local host
+            allow publish 127.0.0.1;
+            deny publish all;
+
+            # disable consuming the stream from nginx as rtmp
+            deny play all;
+
+            # Don't record anything
+            record off;
+
+            # Turn on HLS
+            hls on;
+            hls_path /var/www/html/hls/;
+            hls_fragment 3;
+            hls_playlist_length 20;
+        }
+    }
+}
+
+# HTTP configuration
+http {
+    sendfile off;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
+    directio 512;
+
+    access_log /dev/stdout;
+
+    server_tokens off;
+
+    include /etc/nginx/mime.types;
+
+    default_type application/octet-stream;
+
+    server {
+        listen {HTTP_PORT};
+        listen [::]:{HTTP_PORT};
+
+        # Check for valid stream key
+        location /auth {
+            if ($arg_name = '{STREAM_KEY}') {
+                return 200;
+            }
+            return 404;
+        }
+
+        # Disable cache
+        add_header 'Cache-Control' 'no-cache';
+
+        root /var/www/html/;
+        index index.html index.htm;
+        location / {
+            try_files $uri $uri/ =404;
+        }
+    }
+}

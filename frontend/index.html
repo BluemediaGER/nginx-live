@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Livestream</title>
+        <link rel="icon" href="assets/favicon.ico">
+        <link rel="stylesheet" href="assets/css/style.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Start watching</h1>
+            <p>Click on the play button to start watching. If you see an error, the stream is not live yet. In this case, try again a little later.</p>
+        
+            <div id="player"></div>
+          </div>
+    </body>
+    <script src="assets/js/player.js"></script>
+    <script>
+        // expose Clappr to load additional plugins
+        window.Clappr = window.VOCPlayer
+    </script>
+    <script>
+        new VOCPlayer.Player({
+
+            //** Standard clappr.io Options **
+            // Use custom source
+            sources: ["hls/live.m3u8"],
+
+            // Set a custom poster
+            poster: "assets/backdrop.jpg",
+
+            // Assign parent by id
+            parentId: "#player"
+    })
+    </script>
+</html>
