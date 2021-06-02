@@ -1,6 +1,6 @@
 # nginx-live
 
-nginx-live is a simple, lightweight, self-hosted video streaming service as a Docker container.  
+nginx-live is a simple, lightweight, self-hosted video streaming service in a Docker container.  
 It allows you to securely stream video and audio from encoders such as OBS via RTMP or RTMPS. The stream is then converted to the HLS format so that it can be viewed by a larger number of viewers in their favorite browser.
 
 ## Usage
@@ -28,16 +28,16 @@ docker run -d --name streaming -p 8080:8080 -p 1935:1935 \
 repo.bluemedia.dev/bluemedia/nginx-live
 ```
 
-You will now need to use the server url in your streaming software in the following format: `rtmps://<hostname-or-ip>:<rtmp-port>/live`. It is important that you specify the RTMP port.  
+You will now need to set the server url in your streaming software in the following format: `rtmps://<hostname-or-ip>:<rtmp-port>/live`. It is important that you specify the RTMP port.  
 
-If you also want to make the web player and the HLS files available via HTTPS, you can simply put a reverse proxy of your choice in front of the nginx-live container.
+If you want to make the web player and the HLS files available via HTTPS, you can simply put a reverse proxy of your choice in front of the nginx-live container.
 
 ### Available environment variables
-- RTMP_PORT - Port on which nginx-live listens for ingest data from your streaming software or encoder. Defaults to `1935`.
-- HTTP_PORT - Port on which the web player and HLS files are available via HTTP. Defaults to `8080`.
-- TLS_CERT - File name of the TLS certificate file in the /cert directory inside the container. If set, encrypted ingest will be enabled on the RTMP port.
-- TLS_KEY - File name of the private key that belongs to the TLS certificate.
-- STREAM_KEY - Stream key, which is needed to ingest stream data. If the variable is not set, the key is randomly generated at container startup.
+- `RTMP_PORT` - Port on which nginx-live listens for ingest data from your streaming software or encoder. Defaults to `1935`.
+- `HTTP_PORT` - Port on which the web player and HLS files are available via HTTP. Defaults to `8080`.
+- `TLS_CERT` - File name of the TLS certificate file in the /cert directory inside the container. If set, encrypted ingest will be enabled on the RTMP port.
+- `TLS_KEY` - File name of the private key that belongs to the TLS certificate.
+- `STREAM_KEY` - Stream key, which is needed to ingest stream data. If the variable is not set, the key is randomly generated at container startup.
 
 ## Built with
 
