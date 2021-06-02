@@ -1,14 +1,14 @@
-# The Base Image used to create this Image
+# Base Image used to create this Image
 FROM debian:buster-slim
 
-# Just my name who wrote this file
+# Maintainer
 LABEL maintainer="oliver@traber-info.de"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV RTMP_PORT 1935
 ENV HTTP_PORT 8080
 
-# Update and install logrotate
+# Update and install packages
 RUN apt update -y && \
     apt upgrade -y && \
     apt autoremove -y && \
@@ -16,8 +16,8 @@ RUN apt update -y && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Create users
-RUN useradd -s /bin/false stunnel && useradd -s /bin/false nginx
+# Create nginx user
+RUN useradd -s /bin/false nginx
 
 # Copy files into image
 COPY config/ /template/
