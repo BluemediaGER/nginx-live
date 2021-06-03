@@ -40,15 +40,16 @@ If you want to make the web player and the HLS files available via HTTPS, you ca
 - `STREAM_KEY` - Stream key, which is needed to ingest stream data. If the variable is not set, the key is randomly generated at container startup.
 
 ## Built with
-
 - [NGINX](https://www.nginx.com/) High Performance Load Balancer, Web Server, & Reverse Proxy
 - [nginx-rtmp-module](https://github.com/arut/nginx-rtmp-module) NGINX-based Media Streaming Server
 - [voc-player](https://github.com/voc/voc-player) HTML5 Stream Player for MPEG-DASH and HLS
 
 ## Project structure / Directories
-
 - `config/` NGINX config files with various placeholders which will be replaced by the entrypoint script.
 - `frontend/` All frontend related files. These will be copied to the web root of nginx.
+
+## Automated image builds
+The Docker image `repo.bluemedia.dev/bluemedia/nginx-live` is built an pushed every two days by a Jenkins instance. Builds are based on the current main branch of this repository.
 
 ## Contribution Guidelines
 
