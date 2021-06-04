@@ -38,6 +38,8 @@ If you want to make the web player and the HLS files available via HTTPS, you ca
 - `TLS_CERT` - File name of the TLS certificate file in the /cert directory inside the container. If set, encrypted ingest will be enabled on the RTMP port.
 - `TLS_KEY` - File name of the private key that belongs to the TLS certificate.
 - `STREAM_KEY` - Stream key, which is needed to ingest stream data. If the variable is not set, the key is randomly generated at container startup.
+- `HLS_FRAGMENT_LENGTH` - Length of one HLS fragment in seconds. Defaults to `3`.
+- `HLS_PLAYLIST_LENGTH` - Length of the HLS playlist in seconds. Defaults to `20`.
 
 ## Built with
 - [NGINX](https://www.nginx.com/) High Performance Load Balancer, Web Server, & Reverse Proxy

@@ -7,6 +7,8 @@ LABEL maintainer="oliver@traber-info.de"
 ENV DEBIAN_FRONTEND noninteractive
 ENV RTMP_PORT 1935
 ENV HTTP_PORT 8080
+ENV HLS_FRAGMENT_LENGTH 3
+ENV HLS_PLAYLIST_LENGTH 20
 
 # Update and install packages
 RUN apt update -y && \

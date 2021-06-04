@@ -73,8 +73,8 @@ rtmp {
             # Turn on HLS
             hls on;
             hls_path /var/www/html/hls/;
-            hls_fragment 3;
-            hls_playlist_length 20;
+            hls_fragment {HLS_FRAGMENT_LENGTH};
+            hls_playlist_length {HLS_PLAYLIST_LENGTH};
         }
     }
 }
