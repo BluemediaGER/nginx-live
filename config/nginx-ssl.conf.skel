@@ -72,7 +72,8 @@ rtmp {
 
             # Turn on HLS
             hls on;
-            hls_path /var/www/html/hls/;
+            hls_path /tmp/hls;
+            hls_fragment_naming system;
             hls_fragment {HLS_FRAGMENT_LENGTH};
             hls_playlist_length {HLS_PLAYLIST_LENGTH};
         }
@@ -108,12 +109,17 @@ http {
             return 404;
         }
 
-        # Disable cache
-        add_header 'Cache-Control' 'no-cache';
+        # Serve HLS files from tempfs
+        location /hls {
+            root /tmp;
+            # Don't let browsers cache HLS files
+            add_header Cache-Control no-cache;
+        }
 
-        root /var/www/html/;
-        index index.html index.htm;
+        # Serve frontend
         location / {
+            root /var/www/html;
+            index index.html index.htm;
             try_files $uri $uri/ =404;
         }
     }
