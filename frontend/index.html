@@ -4,7 +4,12 @@
         <meta charset="UTF-8">
         <title>Livestream</title>
         <link rel="icon" href="assets/favicon.ico">
-        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/style.css">
+        <script type="text/javascript" crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/clappr/dist/clappr.min.js"></script>
+        <script type="text/javascript" crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/clappr-stats/dist/clappr-stats.min.js"></script>
+        <script type="text/javascript" crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/clappr-nerd-stats/dist/clappr-nerd-stats.min.js"></script>
+        <script type="text/javascript" crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/clappr-pip-plugin/dist/clappr-pip-plugin.js"></script>
+</head>
     </head>
     <body>
         <div class="container">
@@ -14,23 +19,34 @@
             <div id="player"></div>
           </div>
     </body>
-    <script src="assets/js/player.js"></script>
     <script>
-        // expose Clappr to load additional plugins
-        window.Clappr = window.VOCPlayer
-    </script>
-    <script>
-        new VOCPlayer.Player({
+        new Clappr.Player({
 
             //** Standard clappr.io Options **
             // Use custom source
             sources: ["hls/live.m3u8"],
 
+            // Plugins
+            plugins: [ClapprNerdStats, ClapprStats, ClapprPIPPlugin],
+            clapprNerdStats: {
+                iconPosition: 'none'
+            },
+
+            // Disable m3u8 preload to prevent error on page load
+            hlsPlayback: {
+                preload: false
+            },
+
             // Set a custom poster
             poster: "assets/backdrop.jpg",
 
             // Assign parent by id
-            parentId: "#player"
-    })
+            parentId: "#player",
+
+            // Set dimensions and media control delay
+            height: "100%",
+            width: "100%",
+            hideMediaControlDelay: 1000
+        })
     </script>
 </html>

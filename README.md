@@ -44,7 +44,7 @@ If you want to make the web player and the HLS files available via HTTPS, you ca
 ## Built with
 - [NGINX](https://www.nginx.com/) High Performance Load Balancer, Web Server, & Reverse Proxy
 - [nginx-rtmp-module](https://github.com/arut/nginx-rtmp-module) NGINX-based Media Streaming Server
-- [voc-player](https://github.com/voc/voc-player) HTML5 Stream Player for MPEG-DASH and HLS
+- [Clappr](https://github.com/clappr/clappr) Extensible media player for the web
 
 ## Project structure / Directories
 - `config/` NGINX config files with various placeholders which will be replaced by the entrypoint script.
