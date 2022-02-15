@@ -1,8 +1,8 @@
 # Base Image used to create this Image
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 
 # Maintainer
-LABEL maintainer="oliver@traber-info.de"
+LABEL maintainer="hi@bluemedia.dev"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV RTMP_PORT 1935
