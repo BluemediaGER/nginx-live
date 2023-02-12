@@ -1,5 +1,23 @@
 # nginx-live
 
+<table>
+  <thead>
+    <tr>
+      <td align="left">
+        :warning: Notice
+      </td>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td align="left">
+        The docker image is now hosted as <code>git.bluemedia.dev/bluemedia/nginx-live</code>. The old registry name will continue to point to the current image for now, but may stop working at some point in the future.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 nginx-live is a simple, lightweight, self-hosted video streaming service in a Docker container.  
 It allows you to securely stream video and audio from encoders such as OBS via RTMP or RTMPS. The stream is then converted to the HLS format so that it can be viewed by a larger number of viewers in their favorite browser.
 
@@ -10,7 +28,7 @@ It allows you to securely stream video and audio from encoders such as OBS via R
 If you want to try nginx-live, or test a configuration change, you can start the container without any environment variables. In this case the ingest is done unencrypted via RTMP. The necessary stream key is generated randomly and printed in the Docker log during the first start.
 
 ```shell
-docker run -d --name streaming -p 8080:8080 -p 1935:1935 repo.bluemedia.dev/bluemedia/nginx-live
+docker run -d --name streaming -p 8080:8080 -p 1935:1935 git.bluemedia.dev/bluemedia/nginx-live
 ```
 
 After launch, the web player should be available at `http://<hostname-or-ip>:8080/`.  
@@ -25,7 +43,7 @@ docker run -d --name streaming -p 8080:8080 -p 1935:1935 \
 -v /path/to/certs:/cert:ro \
 -e TLS_CERT=fullchain.cer \
 -e TLS_KEY=private.key \
-repo.bluemedia.dev/bluemedia/nginx-live
+git.bluemedia.dev/bluemedia/nginx-live
 ```
 
 You will now need to set the server url in your streaming software in the following format: `rtmps://<hostname-or-ip>:<rtmp-port>/live`. It is important that you specify the RTMP port.  
@@ -38,18 +56,20 @@ If you want to make the web player and the HLS files available via HTTPS, you ca
 - `TLS_CERT` - File name of the TLS certificate file in the /cert directory inside the container. If set, encrypted ingest will be enabled on the RTMP port.
 - `TLS_KEY` - File name of the private key that belongs to the TLS certificate.
 - `STREAM_KEY` - Stream key, which is needed to ingest stream data. If the variable is not set, the key is randomly generated at container startup.
+- `HLS_FRAGMENT_LENGTH` - Length of one HLS fragment in seconds. Defaults to `3`.
+- `HLS_PLAYLIST_LENGTH` - Length of the HLS playlist in seconds. Defaults to `20`.
 
 ## Built with
 - [NGINX](https://www.nginx.com/) High Performance Load Balancer, Web Server, & Reverse Proxy
 - [nginx-rtmp-module](https://github.com/arut/nginx-rtmp-module) NGINX-based Media Streaming Server
-- [voc-player](https://github.com/voc/voc-player) HTML5 Stream Player for MPEG-DASH and HLS
+- [Clappr](https://github.com/clappr/clappr) Extensible media player for the web
 
 ## Project structure / Directories
 - `config/` NGINX config files with various placeholders which will be replaced by the entrypoint script.
 - `frontend/` All frontend related files. These will be copied to the web root of nginx.
 
 ## Automated image builds
-The Docker image `repo.bluemedia.dev/bluemedia/nginx-live` is built an pushed every two days by a Jenkins instance. Builds are based on the current main branch of this repository.
+The Docker image `git.bluemedia.dev/bluemedia/nginx-live` is built an pushed every two days by a Jenkins instance. Builds are based on the current main branch of this repository.
 
 ## Contribution Guidelines
 

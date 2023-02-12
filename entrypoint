@@ -26,6 +26,8 @@ if [ ! -f /setup.lock ]; then
     sed -i "s/{RTMP_PORT}/$RTMP_PORT/g" /etc/nginx/nginx.conf
     sed -i "s/{STREAM_KEY}/$VALID_STREAM_KEY/g" /etc/nginx/nginx.conf
     sed -i "s/{HTTP_PORT}/$HTTP_PORT/g" /etc/nginx/nginx.conf
+    sed -i "s/{HLS_FRAGMENT_LENGTH}/$HLS_FRAGMENT_LENGTH/g" /etc/nginx/nginx.conf
+    sed -i "s/{HLS_PLAYLIST_LENGTH}/$HLS_PLAYLIST_LENGTH/g" /etc/nginx/nginx.conf
 
     # Touch setup lock
     touch /setup.lock
