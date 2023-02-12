@@ -1,0 +1,19 @@
+kind: pipeline
+type: docker
+name: nginx-live
+
+steps:
+- name: docker
+  image: plugins/docker
+  settings:
+    pull_image: true
+    no_cache: true
+    repo: git.bluemedia.dev/bluemedia/nginx-live
+    tags:
+    - latest
+    purge: true
+    registry: git.bluemedia.dev
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
