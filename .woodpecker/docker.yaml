@@ -1,0 +1,25 @@
+steps:
+  docker:
+    image: woodpeckerci/plugin-docker-buildx
+    secrets: [docker_username, docker_password]
+    settings:
+      pull_image: true
+      registry: git.bluemedia.dev
+      repo: git.bluemedia.dev/bluemedia/nginx-live
+      platforms: linux/amd64,linux/arm/v6,linux/arm64/v8
+      tag: latest
+
+  notify:
+    image: deblan/woodpecker-email
+    settings:
+      from.address:
+        from_secret: smtp_notify_email
+      from.name: Woodpecker CI
+      host:
+        from_secret: smtp_notify_host
+      username:
+        from_secret: smtp_notify_email
+      password:
+        from_secret: smtp_notify_password
+    when:
+      - status: [ failure ]
