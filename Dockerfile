@@ -1,5 +1,5 @@
 # Base Image used to create this Image
-FROM bitnami/minideb:bullseye
+FROM debian:bookworm-slim
 
 # Maintainer
 LABEL maintainer="hi@bluemedia.dev"
@@ -11,7 +11,12 @@ ENV HLS_FRAGMENT_LENGTH 3
 ENV HLS_PLAYLIST_LENGTH 20
 
 # Update and install packages
-RUN install_packages nginx libnginx-mod-rtmp
+RUN apt update -y && \
+    apt upgrade -y && \
+    apt autoremove -y && \
+    apt install nginx libnginx-mod-rtmp -y && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Create nginx user
 RUN useradd -s /bin/false nginx
