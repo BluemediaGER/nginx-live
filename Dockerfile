@@ -14,7 +14,7 @@ ENV HLS_PLAYLIST_LENGTH 20
 RUN apt update -y && \
     apt upgrade -y && \
     apt autoremove -y && \
-    apt install nginx libnginx-mod-rtmp -y && \
+    apt install -y --no-install-recommends nginx libnginx-mod-rtmp && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
