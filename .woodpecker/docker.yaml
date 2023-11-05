@@ -10,16 +10,18 @@ steps:
       tag: latest
 
   notify:
-    image: deblan/woodpecker-email
+    image: git.bluemedia.dev/bluemedia/woodpecker-email
     settings:
-      from.address:
+      from:
         from_secret: smtp_notify_email
-      from.name: Woodpecker CI
       host:
         from_secret: smtp_notify_host
       username:
-        from_secret: smtp_notify_email
+        from_secret: smtp_notify_username
       password:
         from_secret: smtp_notify_password
+      recipients_only: true
+      recipients:
+        from_secret: smtp_notify_recipients
     when:
       - status: [ failure ]
